@@ -61,7 +61,8 @@ pipeline {
                         sh "git ls-remote --tags origin | grep 1.0 | wc -l"
                         tag_c = sh(script: "git ls-remote --tags origin | grep ${version} | wc -l", returnStdout: true)
                     }
-                    TAG = "${version}.${tag_c}"
+                    tag_untrimmed = "${version}.${tag_c}"
+                    TAG = tag_untrimmed.trim()
                 }
             }
         }
