@@ -207,7 +207,7 @@ pipeline {
 
             steps {
                 script {
-                    def url = "http://artifactory:8082/artifactory/api/storage/libs-release-local/com/lidar/telemetry/${TAG}/"
+                    def url = "http://artifactory:8082/artifactory/api/storage/libs-release-local/com/lidar/telemetry/${TAG}"
                     echo "${url}"
 
                     def telemetry = sh(script: "curl -u admin:Al12341234 -X GET ${url}", returnStdout: true)
