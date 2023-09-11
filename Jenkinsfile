@@ -67,7 +67,7 @@ pipeline {
                     }
                     def tag_untrimmed = "${version}.${tag_c}"
                     TAG = tag_untrimmed.trim()
-                    def tag_tel untrimmed = "${version}.${tag_tel}"
+                    def tag_tel_untrimmed = "${version}.${tag_tel}"
                     TAGTEL = tag_tel_untrimmed.trim()
                 }
             }
