@@ -247,7 +247,7 @@ pipeline {
                 sh "ls -l"
                 sh "ls target"
                 echo "asd-${TAG}-asd"
-                sh "java -cp .${JARSIM}:.${JARTM}:target/analytics-1.0.0.jar com.lidar.simulation.Simulator"
+                sh "java -cp .${JARSIM}:.${JARTM}:target/analytics-${TAG}.jar com.lidar.simulation.Simulator"
 
                 stash(name: 'jar', includes: 'target/*.jar')
             }
