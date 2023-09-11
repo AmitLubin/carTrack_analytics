@@ -183,8 +183,8 @@ pipeline {
             }
 
             steps {
-                sh "curl -u admin:Al12341234 -o analytics.jar 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/analytics/99-SNAPSHOT${JARTM}'"
-                sh "curl -u admin:Al12341234 -o simulator.jar 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT${JARSIM}'"
+                sh "curl -u admin:Al12341234 -O analytics.jar 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/telemetry/99-SNAPSHOT${JARTM}'"
+                sh "curl -u admin:Al12341234 -O simulator.jar 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT${JARSIM}'"
                 sh "ls -l"
                 sh "ls target"
                 sh "java -cp .${JARSIM}:.${JARTM}:target/telemetry-99-SNAPSHOT.jar com.lidar.simulation.Simulator"
@@ -240,7 +240,7 @@ pipeline {
             }
 
             steps {
-                sh "curl -u admin:Al12341234 -o analytics.jar 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/analytics/99-SNAPSHOT${JARTM}'"
+                sh "curl -u admin:Al12341234 -o analytics.jar 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/telemetry/99-SNAPSHOT${JARTM}'"
                 sh "curl -u admin:Al12341234 -o simulator.jar 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT${JARSIM}'"
                 sh "ls -l"
                 sh "java -cp .${JARSIM}:.${JARTM}:target/telemetry-99-SNAPSHOT.jar com.lidar.simulation.Simulator"
