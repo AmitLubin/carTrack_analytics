@@ -66,8 +66,8 @@ pipeline {
                         tag_c = sh(script: "git ls-remote --tags origin | grep ${version} | wc -l", returnStdout: true)
                     }
 
-                    echo "${tag_tel}"
-                    def new_tag = (Integer.parseInt(tag_tel) - 1).toString()
+                    def new_tag = (tag_tel.toInteger() - 1).toString()
+                    echo "${new_tag}"
                     def tag_untrimmed = "${version}.${tag_c}"
                     TAG = tag_untrimmed.trim()
                     def tag_tel_untrimmed = "${version}.${new_tag}"
