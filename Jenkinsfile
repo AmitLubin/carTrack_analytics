@@ -206,7 +206,7 @@ pipeline {
 
             steps {
                 script {
-                    def telemetry = sh(script: "curl -u admin:Al12341234 -X GET 'http://artifactory:8082/artifactory/api/storage/libs-snapshot-local/com/lidar/telemetry/99-SNAPSHOT/'", returnStdout: true)
+                    def telemetry = sh(script: "curl -u admin:Al12341234 -X GET 'http://artifactory:8082/artifactory/api/storage/libs-release-local/com/lidar/telemetry/${TAG}/'", returnStdout: true)
                     def simulator = sh(script: "curl -u admin:Al12341234 -X GET 'http://artifactory:8082/artifactory/api/storage/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT/'", returnStdout: true)
 
                     def jsonSlurper = new groovy.json.JsonSlurper()
@@ -241,7 +241,7 @@ pipeline {
 
             steps {
                 
-                sh "curl -u admin:Al12341234 -O 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/telemetry/99-SNAPSHOT${JARTM}'"
+                sh "curl -u admin:Al12341234 -O 'http://artifactory:8082/artifactory/libs-release-local/com/lidar/telemetry/${TAG}${JARTM}'"
                 sh "curl -u admin:Al12341234 -O 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT${JARSIM}'"
                 sh "ls -l"
                 sh "java -cp .${JARSIM}:.${JARTM}:target/analytics-99-SNAPSHOT.jar com.lidar.simulation.Simulator"
