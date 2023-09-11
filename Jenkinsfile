@@ -68,7 +68,7 @@ pipeline {
                     def tag_untrimmed = "${version}.${tag_c}"
                     TAG = tag_untrimmed.trim()
                     def tag_tel_string = "${version}.${tag_tel}"
-                    def tag_tel_untrimmed = (Integer.parseInt(tag_tel_string) - 1).toString()
+                    def tag_tel_untrimmed = ((tag_tel_string).toInteger - 1).toString()
                     TAGTEL = tag_tel_untrimmed.trim()
                 }
             }
