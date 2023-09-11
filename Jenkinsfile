@@ -1,5 +1,6 @@
 def E2E = 'False'
 def TAG = "1.0.0"
+def TAGTEL = "1.0.0"
 def JARTM = ""
 def JARSIM = ""
 
@@ -57,12 +58,17 @@ pipeline {
                     def version = env.BRANCH_NAME.split('/')[1]
                     echo "${version}"
                     def tag_c = "0"
+                    def tag_tel = "0"
                     sshagent(credentials: ['GitlabSSHprivateKey']){
                         sh "git ls-remote --tags origin | grep 1.0 | wc -l"
+                        // git@gitlab.com:amitlubin/exam2_telemetry.git
+                        tag_tel = sh(script: "git ls-remote --tags git@gitlab.com:amitlubin/exam2_telemetry.git | grep ${version} | wc -l", returnStdout: true)
                         tag_c = sh(script: "git ls-remote --tags origin | grep ${version} | wc -l", returnStdout: true)
                     }
-                    tag_untrimmed = "${version}.${tag_c}"
+                    def tag_untrimmed = "${version}.${tag_c}"
                     TAG = tag_untrimmed.trim()
+                    def tag_tel untrimmed = "${version}.${tag_tel}"
+                    TAGTEL = tag_tel_untrimmed.trim()
                 }
             }
         }
@@ -208,8 +214,7 @@ pipeline {
 
             steps {
                 script {
-                    echo "${TAG}${TAG}"
-                    def url = "http://artifactory:8082/artifactory/api/storage/libs-release-local/com/lidar/telemetry/${TAG}"
+                    def url = "http://artifactory:8082/artifactory/api/storage/libs-release-local/com/lidar/telemetry/${TAGTEL}"
                     echo "${url}"
 
                     def telemetry = sh(script: "curl -u admin:Al12341234 -X GET ${url}", returnStdout: true)
@@ -251,7 +256,7 @@ pipeline {
 
             steps {
                 
-                sh "curl -u admin:Al12341234 -O http://artifactory:8082/artifactory/libs-release-local/com/lidar/telemetry/${TAG}${JARTM}"
+                sh "curl -u admin:Al12341234 -O http://artifactory:8082/artifactory/libs-release-local/com/lidar/telemetry/${TAGTEL}${JARTM}"
 
                 sh "curl -u admin:Al12341234 -O 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT${JARSIM}'"
                 sh "ls -l"
