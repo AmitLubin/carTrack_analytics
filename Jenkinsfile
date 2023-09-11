@@ -65,11 +65,14 @@ pipeline {
                         tag_tel = sh(script: "git ls-remote --tags git@gitlab.com:amitlubin/exam2_telemetry.git | grep ${version} | wc -l", returnStdout: true)
                         tag_c = sh(script: "git ls-remote --tags origin | grep ${version} | wc -l", returnStdout: true)
                     }
+
+                    echo "${tag_tel}"
                     def new_tag = (tag_tel.toInteger() - 1).toString()
                     def tag_untrimmed = "${version}.${tag_c}"
                     TAG = tag_untrimmed.trim()
                     def tag_tel_untrimmed = "${version}.${tag_tel}"
                     TAGTEL = tag_tel_untrimmed.trim()
+                    echo "${TAGTEL}"
                 }
             }
         }
