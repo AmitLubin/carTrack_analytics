@@ -214,6 +214,7 @@ pipeline {
 
             steps {
                 script {
+                    echo "${TAGTEL}"
                     def url = "http://artifactory:8082/artifactory/api/storage/libs-release-local/com/lidar/telemetry/${TAGTEL}"
                     echo "${url}"
 
