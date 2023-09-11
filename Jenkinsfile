@@ -245,6 +245,7 @@ pipeline {
                 sh "curl -u admin:Al12341234 -O 'http://artifactory:8082/artifactory/libs-release-local/com/lidar/telemetry/1.0.0/${JARTM}'"
                 sh "curl -u admin:Al12341234 -O 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT${JARSIM}'"
                 sh "ls -l"
+                sh "ls target"
                 sh "java -cp .${JARSIM}:.${JARTM}:target/analytics-99-SNAPSHOT.jar com.lidar.simulation.Simulator"
 
                 stash(name: 'jar', includes: 'target/*.jar')
