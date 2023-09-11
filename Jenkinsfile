@@ -80,6 +80,7 @@ pipeline {
             }
 
             steps {
+                sh "${MVN} dependency:list"
                 sh "${MVN} versions:set -DnewVersion=${TAG}"
                 sh "${MVN} deploy"
             }
