@@ -67,10 +67,10 @@ pipeline {
                     }
 
                     echo "${tag_tel}"
-                    def new_tag = (tag_tel.toInteger() - 1).toString()
+                    def new_tag = (Integer.parseInt(tag_tel) - 1).toString()
                     def tag_untrimmed = "${version}.${tag_c}"
                     TAG = tag_untrimmed.trim()
-                    def tag_tel_untrimmed = "${version}.${tag_tel}"
+                    def tag_tel_untrimmed = "${version}.${new_tag}"
                     TAGTEL = tag_tel_untrimmed.trim()
                     echo "${TAGTEL}"
                 }
