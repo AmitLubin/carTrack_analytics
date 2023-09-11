@@ -56,7 +56,7 @@ pipeline {
                 script {
                     def version = env.BRANCH_NAME.split('/')[1]
                     echo "${version}"
-                    def tag_c = 0
+                    def tag_c = "0"
                     sshagent(credentials: ['GitlabSSHprivateKey']){
                         sh "git ls-remote --tags origin | grep 1.0 | wc -l"
                         tag_c = sh(script: "git ls-remote --tags origin | grep ${version} | wc -l", returnStdout: true)
@@ -207,6 +207,7 @@ pipeline {
 
             steps {
                 script {
+                    echo "${TAG}${TAG}"
                     def url = "http://artifactory:8082/artifactory/api/storage/libs-release-local/com/lidar/telemetry/${TAG}"
                     echo "${url}"
 
