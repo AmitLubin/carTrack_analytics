@@ -207,7 +207,10 @@ pipeline {
 
             steps {
                 script {
-                    def telemetry = sh(script: "curl -u admin:Al12341234 -X GET http://artifactory:8082/artifactory/api/storage/libs-release-local/com/lidar/telemetry/${TAG}/", returnStdout: true)
+                    def url = "http://artifactory:8082/artifactory/api/storage/libs-release-local/com/lidar/telemetry/${TAG}/"
+                    echo "${url}"
+
+                    def telemetry = sh(script: "curl -u admin:Al12341234 -X GET ${url}", returnStdout: true)
                     def simulator = sh(script: "curl -u admin:Al12341234 -X GET 'http://artifactory:8082/artifactory/api/storage/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT/'", returnStdout: true)
                     echo "Curled"
                     // def telemetry = telemetry_curl.stdout
