@@ -126,7 +126,7 @@ pipeline {
 
         stage("Get-latest-jars"){
             when {
-                anyOF {
+                anyOf {
                     branch 'release/*'
                     branch 'main'
                     expression {
