@@ -274,7 +274,7 @@ pipeline {
 
             steps {
                 script {
-                    if (branch =~ "release/*"){
+                    if (env.BRANCH_NAME =~ "release/*"){
                         sh "${MVN} versions:set -DnewVersion=${TAG}"
                         echo "Versioned!"
                     }
