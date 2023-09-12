@@ -76,7 +76,7 @@ pipeline {
             }
         }
 
-        stage('Put-version'){
+        stage('Put-version-and-maven-build'){
             when {
                 branch 'release/*'
             }
