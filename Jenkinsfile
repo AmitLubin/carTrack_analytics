@@ -61,7 +61,6 @@ pipeline {
                     def tag_tel = "0"
                     sshagent(credentials: ['GitlabSSHprivateKey']){
                         sh "git ls-remote --tags origin | grep 1.0 | wc -l"
-                        // git@gitlab.com:amitlubin/exam2_telemetry.git
                         tag_tel = sh(script: "git ls-remote --tags git@gitlab.com:amitlubin/exam2_telemetry.git | grep ${version} | wc -l", returnStdout: true)
                         tag_c = sh(script: "git ls-remote --tags origin | grep ${version} | wc -l", returnStdout: true)
                     }
@@ -86,12 +85,10 @@ pipeline {
                 docker {
                     image 'maven:3.6.3-jdk-8'
                     args '--network jenkins_jenkins_network'
-                    // reuseNode true
                 }
             }
 
             steps {
-                // sh "${MVN} dependency:list"
                 sh "${MVN} versions:set -DnewVersion=${TAG}"
                 sh "${MVN} deploy"
             }
@@ -146,14 +143,6 @@ pipeline {
                 }
             }
 
-            // steps {
-            //     // unstash(name: 'jar')
-            //     sh "curl -u admin:Al12341234 -O 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/analytics/99-SNAPSHOT/analytics-99-20230911.074016-1.jar'"
-            //     sh "curl -u admin:Al12341234 -O 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT/simulator-99-20230911.100821-1.jar'"
-            //     sh "ls -l"
-            //     sh "java -cp simulator-99-20230911.100821-1.jar:analytics-99-20230911.074016-1.jar:target/telemetry-99-SNAPSHOT.jar com.lidar.simulation.Simulator"
-            // }
-
             steps {
                 script {
                     def telemetry = sh(script: "curl -u admin:Al12341234 -X GET 'http://artifactory:8082/artifactory/api/storage/libs-snapshot-local/com/lidar/telemetry/99-SNAPSHOT/'", returnStdout: true)
@@ -188,7 +177,6 @@ pipeline {
 
             agent {
                 docker {
-                    // image 'openjdk:8-jre-alpine3.9'
                     image 'maven:3.6.3-jdk-8'
                     args '--network jenkins_jenkins_network'
                 }
@@ -210,7 +198,6 @@ pipeline {
 
             agent {
                 docker {
-                    // image 'openjdk:8-jre-alpine3.9'
                     image 'maven:3.6.3-jdk-8'
                     args '--network jenkins_jenkins_network'
                 }
@@ -224,8 +211,6 @@ pipeline {
 
                     def telemetry = sh(script: "curl -u admin:Al12341234 -X GET ${url}", returnStdout: true)
                     def simulator = sh(script: "curl -u admin:Al12341234 -X GET 'http://artifactory:8082/artifactory/api/storage/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT/'", returnStdout: true)
-                    echo "Curled"
-                    // def telemetry = telemetry_curl.stdout
 
                     echo "Passed"
                     
@@ -253,7 +238,6 @@ pipeline {
 
             agent {
                 docker {
-                    // image 'openjdk:8-jre-alpine3.9'
                     image 'maven:3.6.3-jdk-8'
                     args '--network jenkins_jenkins_network'
                 }
@@ -262,11 +246,9 @@ pipeline {
             steps {
                 
                 sh "curl -u admin:Al12341234 -O http://artifactory:8082/artifactory/libs-release-local/com/lidar/telemetry/${TAGTEL}${JARTM}"
-
                 sh "curl -u admin:Al12341234 -O 'http://artifactory:8082/artifactory/libs-snapshot-local/com/lidar/simulator/99-SNAPSHOT${JARSIM}'"
                 sh "ls -l"
                 sh "ls target"
-                echo "asd-${TAG}-asd"
                 sh "java -cp .${JARSIM}:.${JARTM}:target/analytics-${TAG}.jar com.lidar.simulation.Simulator"
 
                 stash(name: 'jar', includes: 'target/*.jar')
