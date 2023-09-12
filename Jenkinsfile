@@ -276,6 +276,7 @@ pipeline {
                 script {
                     if (branch =~ "release/*"){
                         sh "${MVN} versions:set -DnewVersion=${TAG}"
+                        echo "Versioned!"
                     }
 
                     sh "${MVN} deploy -DskipTests"
