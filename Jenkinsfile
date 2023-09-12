@@ -282,6 +282,12 @@ pipeline {
                     sh "${MVN} deploy -DskipTests"
                 }
             }
+
+            post {
+                always {
+                    cleanWs()
+                }
+            }
         }
 
         stage('Git-tag'){
