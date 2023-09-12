@@ -124,7 +124,7 @@ pipeline {
             }
         }
 
-        stage("Release-artifactory"){
+        stage("Get-latest-jars"){
             when {
                 anyOF {
                     branch 'release/*'
