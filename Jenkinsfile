@@ -90,11 +90,11 @@ pipeline {
 
             steps {
                 sh "${MVN} versions:set -DnewVersion=${TAG}"
-                sh "${MVN} deploy"
+                sh "${MVN} verify"
             }
         }
 
-        stage('Maven-deploy'){
+        stage('Maven-build'){
             when {
                 anyOf {
                     branch 'main'
@@ -115,12 +115,11 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'main') {
                         echo "Skipped!"
-                        sh "${MVN} deploy -DskipTests"
+                        sh "${MVN} verify -DskipTests"
                     } else {
                         echo "Tested!"
-                        sh "${MVN} deploy"
+                        sh "${MVN} verify"
                     }
-                    sh "${MVN} deploy"
                 }
             }
         }
@@ -252,6 +251,35 @@ pipeline {
                 sh "java -cp .${JARSIM}:.${JARTM}:target/analytics-${TAG}.jar com.lidar.simulation.Simulator"
 
                 stash(name: 'jar', includes: 'target/*.jar')
+            }
+        }
+
+        stage('Maven-deploy'){
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'release/*'
+                    expression {
+                        return (env.BRANCH_NAME =~ /^feature\/.*/ && E2E == 'True')
+                    }
+                }
+            }
+
+            agent {
+                docker {
+                    image 'maven:3.6.3-jdk-8'
+                    args '--network jenkins_jenkins_network'
+                }
+            }
+
+            steps {
+                script {
+                    if (branch =~ "release/*"){
+                        sh "${MVN} versions:set -DnewVersion=${TAG}"
+                    }
+
+                    sh "${MVN} deploy -DskipTests"
+                }
             }
         }
 
